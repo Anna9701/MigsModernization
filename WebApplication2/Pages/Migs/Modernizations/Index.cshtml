@@ -1,0 +1,50 @@
+﻿@page
+@model MigsModernization.Pages.Migs.Modernizations.IndexModel
+
+@{
+    ViewData["Title"] = "Modernizations";
+}
+
+<h4>Modernizations for MIG @Html.DisplayFor(m => m.SideNumber)</h4>
+
+<p>
+    <a asp-page="Create" asp-route-sideNumber="@this.Model.SideNumber">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Modernization
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Modernization[0].Performed)
+            </th>
+            <th>
+                Planned By
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Modernization)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModernizationName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Performed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlannedBy)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-page="../Index">Back to List Of All Migs</a>

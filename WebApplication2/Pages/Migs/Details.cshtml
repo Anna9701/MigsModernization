@@ -1,0 +1,55 @@
+﻿@page
+@model MigsModernization.Pages.Migs.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Mig</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Mig.Airplane)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mig.Airplane)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Mig.Version)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mig.Version)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Mig.Type)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mig.Type)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Mig.Unit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mig.Unit)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Mig.StagingArea)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mig.StagingArea)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Mig.Notes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mig.Notes)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Mig.SideNumber">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

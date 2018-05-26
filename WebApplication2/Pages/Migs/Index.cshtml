@@ -1,0 +1,91 @@
+﻿@page
+@model MigsModernization.Pages.Migs.IndexModel
+
+@{
+    ViewData["Title"] = "Migs";
+}
+
+<h2>Migs</h2>
+
+<p>
+    <a class="btn btn-primary" asp-page="Create">Create</a>
+</p>
+
+<form method="post" class="col-sm-2">
+    <div class="form-group">
+        <label asp-for="MigSideNumber" class="control-label"></label>
+        <input asp-for="MigSideNumber" class="form-control" />
+        <span asp-validation-for="MigSideNumber" class="text-danger"></span>
+    </div>
+    <input type="submit" value="Search" class="btn btn-default" />
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    Side Number
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Migs[0].Airplane)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Migs[0].Version)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Migs[0].Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Migs[0].Unit)
+                </th>
+                <th>
+                    Staging Area
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Migs[0].Notes)
+                </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @if (Model.Migs != null)
+    {
+        @foreach (var item in Model.Migs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SideNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Airplane)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Version)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StagingArea)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    <a asp-page="./Modernizations/Index" asp-route-sideNumber="@item.SideNumber"> Modernizations </a>
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.SideNumber">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.SideNumber">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.SideNumber">Delete</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
