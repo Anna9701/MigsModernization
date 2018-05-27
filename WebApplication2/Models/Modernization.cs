@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using MigsModernization.Models;
 
 namespace MigsModernization.Models
 {
