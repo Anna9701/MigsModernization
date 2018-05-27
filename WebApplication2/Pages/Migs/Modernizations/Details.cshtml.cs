@@ -25,7 +25,9 @@ namespace MigsModernization.Pages.Migs.Modernizations
             }
 
             Modernization = await _context.Modernization
-                .Include(m => m.MigSideNumberNavigation).SingleOrDefaultAsync(m => m.Id == id);
+                .Include(m => m.MigSideNumberNavigation)
+                .Include(m => m.MigSideNumberNavigation.AirplaneNavigation)
+                .SingleOrDefaultAsync(m => m.Id == id);
 
             if (Modernization == null)
             {

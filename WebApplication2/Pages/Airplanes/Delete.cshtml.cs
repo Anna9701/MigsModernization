@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MigsModernization.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace MigsModernization.Pages.Airplanes
@@ -42,6 +43,12 @@ namespace MigsModernization.Pages.Airplanes
             }
 
             Airplane = await _context.Airplanes.FindAsync(id);
+            await CheckIfThereAreRelatedMigs();
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
             if (Airplane != null)
             {
@@ -50,6 +57,19 @@ namespace MigsModernization.Pages.Airplanes
             }
 
             return RedirectToPage("./Index");
+        }
+
+        private async Task CheckIfThereAreRelatedMigs()
+        {
+            var migs = await _context.Migs.ToListAsync();
+            foreach (var mig in migs)
+            {
+                if (mig.AirplaneId == Airplane.Id)
+                {
+                    ModelState.AddModelError("Airplane", "There are migs in that type registered! You cannot remove it.");
+                }
+            }
+
         }
     }
 }

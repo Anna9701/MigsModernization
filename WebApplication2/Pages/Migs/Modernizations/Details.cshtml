@@ -24,16 +24,28 @@
             @Html.DisplayFor(model => model.Modernization.Performed)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Modernization.PlannedBy)
+            Planned By
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Modernization.PlannedBy)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Modernization.MigSideNumberNavigation)
+            @Html.DisplayNameFor(model => model.Modernization.MigSideNumberNavigation.SideNumber)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Modernization.MigSideNumberNavigation.Airplane)
+            @Html.DisplayFor(model => model.Modernization.MigSideNumberNavigation.SideNumber)
+        </dd>
+        <dt>
+            Airplane
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Modernization.MigSideNumberNavigation.AirplaneNavigation.Name)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.Modernization.MigSideNumberNavigation.AirplaneNavigation.Version)
+        </dd>
+        <dd>
+            @Html.DisplayFor(model => model.Modernization.MigSideNumberNavigation.AirplaneNavigation.Type)
         </dd>
     </dl>
 </div>
