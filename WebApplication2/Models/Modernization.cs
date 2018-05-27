@@ -8,8 +8,8 @@ namespace MigsModernization.Models
     {
         public long Id { get; set; }
         public string ModernizationName { get; set; }
-        public sbyte Performed { get; set; }
-        public DateTime PlannedBy { get; set; }
+        public Boolean Performed { get; set; }
+        public DateTime? PlannedBy { get; set; }
         public long MigSideNumber { get; set; }
 
         public Mig MigSideNumberNavigation { get; set; }

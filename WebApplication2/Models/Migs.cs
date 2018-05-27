@@ -11,13 +11,12 @@ namespace MigsModernization.Models
         }
 
         public long SideNumber { get; set; }
-        public string Airplane { get; set; }
-        public double Version { get; set; }
-        public string Type { get; set; }
+        public long AirplaneId { get; set; }
         public string Unit { get; set; }
         public string StagingArea { get; set; }
         public string Notes { get; set; }
 
+        public Airplane AirplaneNavigation { get; set; }
         public ICollection<Modernization> Modernizations { get; set; }
     }
 }

@@ -28,7 +28,9 @@ namespace MigsModernization.Pages.Migs
                 return NotFound();
             }
 
-            Mig = await _context.Migs.SingleOrDefaultAsync(m => m.SideNumber == id);
+            Mig = await _context.Migs
+                .Include(m => m.AirplaneNavigation)
+                .SingleOrDefaultAsync(m => m.SideNumber == id);
 
             if (Mig == null)
             {

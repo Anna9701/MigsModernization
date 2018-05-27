@@ -15,13 +15,13 @@ namespace MigsModernization.Pages.Migs
     {
         private readonly Sin79_MigsModernizationContext _context;
 
+        [BindProperty]
+        public Mig Mig { get; set; }
+
         public EditModel(Sin79_MigsModernizationContext context)
         {
             _context = context;
         }
-
-        [BindProperty]
-        public Mig Mig { get; set; }
 
         public async Task<IActionResult> OnGetAsync(long? id)
         {
@@ -38,6 +38,11 @@ namespace MigsModernization.Pages.Migs
             {
                 return NotFound();
             }
+
+            InitializeStagingAreasSelectList();
+            InitializeUnitsSelectList();
+            InitializeAirplanesSelectList();
+
             return Page();
         }
 
@@ -45,7 +50,7 @@ namespace MigsModernization.Pages.Migs
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                return await OnGetAsync(Mig.SideNumber);
             }
 
             try
@@ -60,7 +65,7 @@ namespace MigsModernization.Pages.Migs
                 }
                 else
                 {
-                    throw;
+                    return await OnGetAsync(Mig.SideNumber);
                 }
             }
 
@@ -69,21 +74,59 @@ namespace MigsModernization.Pages.Migs
 
         private async Task UpdateMig()
         {
-            var migInDatabes = await _context.Migs
+            var migInDatabase = await _context.Migs
                 .Include(m => m.Modernizations)
                 .FirstOrDefaultAsync(m => m.SideNumber == Mig.SideNumber);
-            migInDatabes.Airplane = Mig.Airplane;
-            migInDatabes.Notes = Mig.Notes;
-            migInDatabes.StagingArea = Mig.StagingArea;
-            migInDatabes.Unit = Mig.Unit;
-            migInDatabes.Type = Mig.Type;
-            migInDatabes.Version = Mig.Version;
+
+            migInDatabase.AirplaneId = Mig.AirplaneId;
+            migInDatabase.Notes = Mig.Notes;
+            migInDatabase.StagingArea = Mig.StagingArea;
+
             await _context.SaveChangesAsync();
         }
+
+        //TODO fix editing!!
 
         private bool MigExists(long id)
         {
             return _context.Migs.Any(e => e.SideNumber == id);
+        }
+
+        private void InitializeAirplanesSelectList()
+        {
+            List<Airplane> airplanesSelectListItems = _context.Airplanes.ToList();
+            List<Airplane> copyList = new List<Airplane>();
+            for (int i = 0; i < airplanesSelectListItems.Count; ++i)
+            {
+                Airplane airplane = airplanesSelectListItems.ElementAt(i);
+                copyList.Add(new Airplane { Name = airplane.ToString(), Id = airplane.Id });
+            }
+
+            ViewData["AirplaneId"] = new SelectList(copyList, "Id", "Name");
+        }
+
+        private void InitializeUnitsSelectList()
+        {
+            List<String> units = new List<string>();
+            var unitsEntities = _context.Units.ToList().Distinct();
+            foreach (var unit in unitsEntities)
+            {
+                units.Add(unit.Name);
+            }
+
+            ViewData["Unit"] = new SelectList(units);
+        }
+
+        private void InitializeStagingAreasSelectList()
+        {
+            List<String> stagingAreas = new List<string>();
+            var areas = _context.StagingAreas.ToList().Distinct();
+            foreach (var area in areas)
+            {
+                stagingAreas.Add(area.CityName);
+            }
+
+            ViewData["StagingArea"] = new SelectList(stagingAreas);
         }
     }
 }

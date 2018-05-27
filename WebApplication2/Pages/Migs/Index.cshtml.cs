@@ -32,7 +32,9 @@ namespace MigsModernization.Pages.Migs
 
         public async Task OnGetAsync()
         {
-            Migs = await _context.Migs.ToListAsync();
+            Migs = await _context.Migs
+                .Include(m => m.AirplaneNavigation)
+                .ToListAsync();
         }
 
         public async Task<IActionResult> OnPostAsync()

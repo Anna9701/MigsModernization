@@ -28,13 +28,13 @@
                     Side Number
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Migs[0].Airplane)
+                    @Html.DisplayNameFor(model => model.Migs[0].AirplaneNavigation.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Migs[0].Version)
+
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Migs[0].Type)
+
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Migs[0].Unit)
@@ -59,13 +59,13 @@
                     @Html.DisplayFor(modelItem => item.SideNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Airplane)
+                    @Html.DisplayFor(modelItem => item.AirplaneNavigation.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Version)
+                    @Html.DisplayFor(modelItem => item.AirplaneNavigation.Version)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Type)
+                    @Html.DisplayFor(modelItem => item.AirplaneNavigation.Type)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Unit)

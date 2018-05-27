@@ -18,6 +18,9 @@ namespace MigsModernization.Context
 
         public virtual DbSet<Mig> Migs { get; set; }
         public virtual DbSet<Modernization> Modernization { get; set; }
+        public virtual DbSet<ModernizationType> ModernizationTypes { get; set; }
+        public virtual DbSet<Airplane> Airplanes { get; set; }
+        public virtual DbSet<StagingArea> StagingAreas { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,10 +46,11 @@ namespace MigsModernization.Context
                     .HasColumnName("side_number")
                     .HasColumnType("bigint(20)");
 
-                entity.Property(e => e.Airplane)
-                    .IsRequired()
-                    .HasColumnName("airplane")
-                    .HasColumnType("text");
+                entity.HasOne(e => e.AirplaneNavigation)
+                    .WithMany(a => a.Migs)
+                    .HasForeignKey(e => e.AirplaneId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("migs_fk0");
 
                 entity.Property(e => e.Notes)
                     .HasColumnName("notes")
@@ -57,17 +61,16 @@ namespace MigsModernization.Context
                     .HasColumnName("staging_area")
                     .HasColumnType("text");
 
-                entity.Property(e => e.Type)
+                entity.Property(e => e.AirplaneId)
                     .IsRequired()
-                    .HasColumnName("type")
-                    .HasColumnType("text");
+                    .HasColumnName("airplane_id")
+                    .HasColumnType("bigint(20)");
 
                 entity.Property(e => e.Unit)
                     .IsRequired()
                     .HasColumnName("unit")
                     .HasColumnType("text");
 
-                entity.Property(e => e.Version).HasColumnName("version");
             });
 
             modelBuilder.Entity<Modernization>(entity =>
@@ -102,9 +105,97 @@ namespace MigsModernization.Context
                 entity.HasOne(d => d.MigSideNumberNavigation)
                     .WithMany(p => p.Modernizations)
                     .HasForeignKey(d => d.MigSideNumber)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("modernization_fk0");
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("modernization_fk1");
+            });
+
+            modelBuilder.Entity<ModernizationType>(entity =>
+            {
+                entity.ToTable("modernization_type");
+
+                entity.HasIndex(e => e.Id).IsUnique(true);
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id)
+                    .IsRequired(true)
+                    .HasColumnName("id")
+                    .HasColumnType("bigint(20)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired(true)
+                    .HasColumnName("name")
+                    .HasColumnType("text");
+
+            });
+
+            modelBuilder.Entity<Airplane>(entity =>
+            {
+                entity.ToTable("airplane");
+
+                entity.HasIndex(e => e.Id).IsUnique(true);
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id)
+                    .IsRequired(true)
+                    .HasColumnName("id")
+                    .HasColumnType("bigint(20)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired(true)
+                    .HasColumnName("name")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Type)
+                    .IsRequired(true)
+                    .HasColumnName("type")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Version)
+                    .IsRequired(true)
+                    .HasColumnName("version")
+                    .HasColumnType("text");
+
+            });
+
+            modelBuilder.Entity<StagingArea>(entity =>
+            {
+                entity.ToTable("staging_area");
+
+                entity.HasIndex(e => e.Id).IsUnique(true);
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id)
+                    .IsRequired(true)
+                    .HasColumnName("id")
+                    .HasColumnType("bigint(20)");
+
+                entity.Property(e => e.CityName)
+                    .IsRequired(true)
+                    .HasColumnName("city_name")
+                    .HasColumnType("text");
+
+            });
+
+            modelBuilder.Entity<Unit>(entity =>
+            {
+                entity.ToTable("unit");
+
+                entity.HasIndex(e => e.Id).IsUnique(true);
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id)
+                    .IsRequired(true)
+                    .HasColumnName("id")
+                    .HasColumnType("bigint(20)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired(true)
+                    .HasColumnName("name")
+                    .HasColumnType("text");
+
             });
         }
+
+        public DbSet<MigsModernization.Models.Unit> Units { get; set; }
     }
 }
