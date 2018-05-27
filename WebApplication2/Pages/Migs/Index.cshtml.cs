@@ -13,8 +13,8 @@ namespace MigsModernization.Pages.Migs
 {
     public class IndexModel : PageModel
     {
-        private static String SideNumberParameterName => "sideNumber";
-        public static String MigsModernizationsPage => "./Modernizations/Index";
+        private static String SideNumberParameterName => "id";
+        public static String MigsDetailsPage => "./Details";
 
         [BindProperty]
         public long MigSideNumber { get; set; }
@@ -52,7 +52,7 @@ namespace MigsModernization.Pages.Migs
                 { SideNumberParameterName, MigSideNumber }
             };
 
-            return RedirectToPage(MigsModernizationsPage, routes);
+            return RedirectToPage(MigsDetailsPage, routes);
         }
     }
 }
